@@ -1,5 +1,5 @@
 function attachEvents() {
-    let url = 'https://rest-messanger.firebaseio.com/messanger';
+    let url = 'https://rest-messanger.firebaseio.com/messanger.json';
 
     let refreshBtn = document.getElementById('refresh');
     refreshBtn.addEventListener('click', () => {
