@@ -4,7 +4,7 @@ const htmlSelectors = {
     'lastNameInput': () => document.getElementById('lastName'),
     'facultyNumberInput': () => document.getElementById('facultyNumber'),
     'gradeInput': () => document.getElementById('grade'),
-    'counterId': () => document.getElementById('counter-id'),
+    'id': () => document.getElementById('id'),
     'errorContainer': () => document.getElementById('error-notification'),
     'studentsContainer': () => document.querySelector('table > tbody'),
 }
@@ -28,9 +28,11 @@ function renderStudents(studentsData) {
 
     Object
         .keys(studentsData)
+        .sort((a, b) => a.id - b.id)
         .forEach(studentId => {
             const { id, firstName, lastName, facultyNumber, grade } = studentsData[studentId];
-
+            
+            // studentsData.sort((a, b) => a.id - b.id);
             const tableRow = createDOMElement('tr', '', {}, {},
                 createDOMElement('td', id, {}, {}),
                 createDOMElement('td', firstName, {}, {}),
@@ -38,37 +40,36 @@ function renderStudents(studentsData) {
                 createDOMElement('td', facultyNumber, {}, {}),
                 createDOMElement('td', grade, {}, {}),
             );
-
+            
             studentsContainer.appendChild(tableRow);
-        })
+            
+        })                
 }
 
 function createStudent(e) {
     e.preventDefault();
 
-    let counterId = htmlSelectors['counterId']();
+    const id = htmlSelectors['id']();
     const firstName = htmlSelectors['firstNameInput']();
     const lastName = htmlSelectors['lastNameInput']();
     const facultyNumber = htmlSelectors['facultyNumberInput']();
     const grade = htmlSelectors['gradeInput']();
 
-    if (firstName.value !== '' && lastName.value !== '' && facultyNumber.value !== '' && grade.value !== '') {
-        let count = 0;
-        count++;
-        counterId = count;
+    if (id.value !== '' || firstName.value !== '' && lastName.value !== '' && facultyNumber.value !== '' && grade.value !== '') {
 
         const initObj = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: counterId, firstName: firstName.value, lastName: lastName.value, facultyNumber: facultyNumber.value, grade: grade.value })
+            body: JSON.stringify({ id: id.value, firstName: firstName.value, lastName: lastName.value, facultyNumber: facultyNumber.value, grade: grade.value })
         }
 
         fetch('https://students-exercise-cf0f7.firebaseio.com/Students.json', initObj)
             .then(fetchAllStudents)
             .catch(handleError);
 
+        id.value = '';
         firstName.value = '';
         lastName.value = '';
         facultyNumber.value = '';
