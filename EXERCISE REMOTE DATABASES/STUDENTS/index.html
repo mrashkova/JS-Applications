@@ -8,6 +8,34 @@
 </head>
 
 <body>
+    <form id="newStudentForm">
+        <div class="container">
+          <h2>Create new a student</h2>
+          <p>Please fill in this form to create a new student entry.</p>
+          <hr>
+      
+          <label for="ID"><b>ID</b></label>
+          <input type="number" placeholder="ID" id="ID" min="1" required>
+          <hr>
+          <label for="firstName"><b>First Name</b></label>
+          <input type="text" placeholder="First Name" id="first-name" required>
+          <hr>
+          <label for="lastName"><b>Last Name</b></label>
+          <input type="text" placeholder="Last Name" id="last-name" required>
+          <hr>
+          <label for="facultyNumber"><b>Faculty Number</b></label>
+          <input type="number" placeholder="Faculty Number" id="faculty-number" min="1" required>
+          <hr>
+          <label for="grade"><b>Grade</b> <i>(between 2 and 6)</i></label>
+          <input type="number" placeholder="Grade" id="grade" min="2" max="6" required>
+        
+          <hr>
+          <button id="submit">Submit</button>
+        </div>
+      </form>
+
+      <br><br>
+
     <table id="results">
         <thead>
             <tr>
@@ -20,20 +48,9 @@
         </thead>
         <tbody></tbody>
     </table>
-    <div id="error-notification"></div>
-    <form id="create-form">
-        <h3>FORM</h3>
-        <div id="counter-id"></div>
-        <label>First Name</label>
-        <input type="title" name="firstName" placeholder="First Name..." id="firstName">
-        <label>Last Name</label>
-        <input type="title" name="lastName" placeholder="Last Name..." id="lastName">
-        <label>Faculty Number</label>
-        <input type="number" name="facultyNumber" placeholder="Faculty Number..." id="facultyNumber">
-        <label>Grade</label>
-        <input type="number" name="grade" placeholder="Grade..." id="grade">
-        <button>Submit</button>
-    </form>
+
+    
+
 
     <script src="./app.js"></script>
 </body>
