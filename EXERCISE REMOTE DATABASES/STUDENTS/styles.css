@@ -3,12 +3,6 @@ body{
     font-size: 20px;
 }
 
-#error-notification {
-    display: none;
-    border: 1px solid red;
-    color: black;
-}
-
 table{
     border:1px solid #234465;
     padding: 1%;
@@ -48,4 +42,30 @@ table tbody tr:nth-child(even) button{
 
 table tr:hover{
     text-decoration: underline;
+}
+
+form {
+    border:1px solid #234465;
+    padding: 1%;
+    margin: 0 auto;
+    width: 25%;
+    border-radius: 4px;
+}
+input {
+    float: right;
+    padding: 1%;
+    margin: 0 auto;
+    width: 35%;
+    border-radius: 4px;
+}
+
+button {
+        background-color: #234465;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
 }
