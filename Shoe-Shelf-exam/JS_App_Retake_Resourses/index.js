@@ -1,18 +1,16 @@
 const userModel = firebase.auth();
-const db = firebase.firestore();
+const DB = firebase.firestore();
 
 const app = Sammy('#root', function () {
 
     this.use('Handlebars', 'hbs');
 
     this.get('/home', function (context) {
-        db.collection('offers')
+        DB.collection('offers')
             .get()
             .then(response => {
-                context.offers = [];
-                response.forEach((offer) => {
-                    context.offers.push({ id: offer.id, ...offer.data() });
-                })
+                context.offers = response.docs.map((offer) => { return { id: offer.id, ...offer.data() } })
+
                 extendContext(context)
                     .then(function () {
                         this.partial('./templates/home.hbs');
@@ -74,7 +72,7 @@ const app = Sammy('#root', function () {
         userModel.signOut()
             .then(response => {
                 clearUserData();
-                this.redirect('/login');
+                this.redirect('#/login');
             })
             .catch(errorHandler);
     })
@@ -96,50 +94,116 @@ const app = Sammy('#root', function () {
             return;
         }
 
-        db.collection('offers').add({
+        DB.collection('offers').add({
             productName,
             price,
             imageUrl,
             description,
             brand,
             salesman: getUserData().uid,
+            clients: []
         })
             .then((createProduct) => {
                 console.log(createProduct);
-                this.redirect('/home');
+                this.redirect('#/home');
             })
             .catch(errorHandler);
-    });
-
-    this.get('/edit-offer/:id', function (context) {
-        extendContext(context)
-            .then(function () {
-                this.partial('./templates/editOffer.hbs');
-            });
     });
 
     this.get('/details/:offerId', function (context) {
         const { offerId } = context.params;
 
-        db.collection('offers')
+        DB.collection('offers')
             .doc(offerId)
             .get()
             .then(response => {
+                const { uid } = getUserData();
                 const actualOfferData = response.data();
-                const imTheSalesman = actualOfferData.salesman === getUserData().uid;
+                const imTheSalesman = actualOfferData.salesman === uid;
 
-                context.offer = { ...actualOfferData, imTheSalesman };
+                const userIndex = actualOfferData.clients.indexOf(uid);
+                const imInTheClientsList = userIndex > -1;
+
+                context.offer = { ...actualOfferData, imTheSalesman, id: offerId, imInTheClientsList };
                 extendContext(context)
                     .then(function () {
                         this.partial('./templates/details.hbs');
                     });
             });
     });
+    this.get('/delete/:offerId', function (context) {
+        const { offerId } = context.params;
+        DB.collection('offers')
+            .doc(offerId)
+            .delete()
+            .then(() => {
+                this.redirect('#/home');
+            })
+            .catch(errorHandler);
+    });
+    this.get('/edit/:offerId', function (context) {
+        const { offerId } = context.params;
 
+        DB.collection('offers')
+            .doc(offerId)
+            .get()
+            .then(response => {
+                context.offer = { id: offerId, ...response.data() };
+                extendContext(context)
+                    .then(function () {
+                        this.partial('./templates/editOffer.hbs');
+                    });
+            })
+            .catch(errorHandler);
+    });
+    this.post('/edit/:offerId', function (context) {
+        const { offerId, productName, price, brand, description, imageUrl } = context.params;
+
+        DB.collection('offers')
+            .doc(offerId)
+            .get()
+            .then(response => {
+                return DB.collection('offers')
+                    .doc(offerId)
+            .set({
+                ...response.data(),
+                productName,
+                price,
+                brand,
+                description,
+                imageUrl,
+            })
+            })
+            .then(response => {
+                this.redirect(`#/details/${offerId}`)
+            })
+            .catch(errorHandler);
+    })
+
+    this.get('/buy/:offerId', function (context) {
+        const { offerId } = context.params;
+        const { uid } = getUserData();
+
+        DB.collection('offers')
+            .doc(offerId)
+            .get()
+            .then(response => {
+                const offerData = { ...response.data() };
+                offerData.clients.push(uid)
+
+                return DB.collection('offers')
+                    .doc(offerId)
+                    .set(offerData);
+            })
+            .then(() => {
+                this.redirect(`#/details/${offerId}`);
+            })
+            .catch(errorHandler);
+    })
 });
 
 (() => {
-    app.run('/home');
+    app.run('#/home');
 })();
 
 function extendContext(context) {
