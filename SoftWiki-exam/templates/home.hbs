@@ -1,0 +1,22 @@
+{{> header}}
+
+<div class="content">
+    {{#each articles}}
+    <section>
+        <h2>{{this.category}}</h2>
+        <div class="articles">
+            <article>
+                <h3>{{this.title}}</h3>
+                <p>{{this.content}}</p>
+                <a href="#/details/{{id}}" class="btn details-btn">Details</a>
+            </article>
+            
+        </div>
+    </section>
+    {{else}}
+            <h3 class="no-articles">No articles yet</h3>
+    {{/each}}
+
+</div>
+
+{{> footer}}
