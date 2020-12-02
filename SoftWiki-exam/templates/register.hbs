@@ -1,7 +1,6 @@
-{{> header}}
-
+{{>header}}
 <div class="container auth">
-    <form action="/register" method="POST">
+    <form action="#/register" method="POST">
         <fieldset>
             <legend>Register</legend>
             <blockquote>Knowledge is not simply another commodity. On the contrary. Knowledge is never used up. It
@@ -15,7 +14,7 @@
                 <label for="register-pass">Password:</label>
             </p>
             <p class="field password">
-                <input type="password" name="repeatPassword" id="repeatPassword">
+                <input type="password" name="repPass" id="repPass">
                 <label for="rep-pass">Repeat password:</label>
             </p>
             <p class="field submit">
@@ -27,5 +26,4 @@
         </fieldset>
     </form>
 </div>
-
-{{> footer}}
+{{>footer}}
