@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>UniEnt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="./styles/styles.css" />
+</head>
+
+<body>
+  <div id="notifications">
+    <div id="successBox" class="alert alert-success" role="alert"><span>{Success Message...}</span></div>
+    <div id="loadingBox" class="alert alert-info" role="alert"><span>Loading...</span></div>
+    <div id="errorBox" class="alert alert-danger" role="alert"><span>{Error Message...}</span></div>
+  </div>
+  <div id="root">
+    
+  </div>
+
+  
+
+  <!-- Libraries -->
+  <script src="./node_modules/jquery/dist/jquery.js"></script>
+  <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="./node_modules/handlebars/dist/handlebars.min.js"></script>
+  <script src="./node_modules/sammy/lib/sammy.js"></script>
+  <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBGMB1PTU47C2q7px6W9r-QZvxVpZhMgHw",
+      authDomain: "exam-aec2d.firebaseapp.com",
+      databaseURL: "https://exam-aec2d.firebaseio.com",
+      projectId: "exam-aec2d",
+      storageBucket: "exam-aec2d.appspot.com",
+      messagingSenderId: "545827585232",
+      appId: "1:545827585232:web:9b48b2fc6c244cd302b2d5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+
+  <script src="notify.js"></script>
+  <script src="index.js"></script>
+</body>
+
+
+</html>
