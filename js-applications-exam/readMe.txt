@@ -1,0 +1,2 @@
+npm install
+lite-server
